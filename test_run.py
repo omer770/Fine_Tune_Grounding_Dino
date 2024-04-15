@@ -36,7 +36,7 @@ def apply_nms_per_phrase(image_source, boxes, logits, phrases, threshold=0.3):
 def process_image(
         model_config="groundingdino/config/GroundingDINO_SwinT_OGC.py",
         model_weights=model_weights,
-        image_path="data/test_images/img.jpg",
+        image_path="data/test_images/img_test.jpg",
         text_prompt="building . pool . carvan .circular stucture",
         #text_prompt=" carvan ",
         box_threshold=0.60,
