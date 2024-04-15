@@ -1,4 +1,4 @@
-from groundingdino.util.train import load_model, load_image,train_image, annotate
+from groundingdino.util.train_utils import load_model, load_image,train_image, annotate
 import cv2
 import os
 import json
