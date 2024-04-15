@@ -1,4 +1,4 @@
-# Grounding DINO Fine-tuning 🦖
+# Grounding DINO Fine-tuning 🦕
 
 
 We have expanded on the original DINO  repository 
@@ -15,3 +15,5 @@ by introducing the capability to train the model with image-to-text grounding. T
 
 ## Installation:
 See original Repo for installation of required dependencies essentially we need to install prerequisits and 
+
+##Better to run in GPU for Faster and accurate results
