@@ -18,10 +18,15 @@ for param in model.backbone.parameters():
   param.requires_grad = True
 weights_Dir = Path('/content/drive/MyDrive/Colab_zip/GroundingDINO/weights')
 filePaths = [file for file in weights_Dir.iterdir() if file.name.startswith('model_weights')]
-latest_weigths = str(filePaths[-1])
-model.load_state_dict(torch.load(latest_weigths,map_location= device))
-print("choosen weights: ",latest_weigths)
-times = str(int(latest_weigths.split('_')[-2])+1).zfill(2)
+try:
+  latest_weigths = str(filePaths[-1])
+  model.load_state_dict(torch.load(latest_weigths,map_location= device))
+  print("choosen weights: ",latest_weigths)
+  times = str(int(latest_weigths.split('_')[-2])+1).zfill(2)
+except:
+  latest_weigths= None
+  print("choosen weights: ",latest_weigths)
+  times = '00'
 # Dataset paths
 images_files=sorted(os.listdir("data/images"))
 #ann_file="data/annotations/annotation.csv"
