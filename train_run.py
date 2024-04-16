@@ -12,7 +12,11 @@ torch.set_default_device(device)
 
 # Model
 model = load_model("groundingdino/config/GroundingDINO_SwinT_OGC.py", "weights/groundingdino_swint_ogc.pth")
-weights_Dir = Path('weights/')
+for param in model.parameters():
+  param.requires_grad = False
+for param in model.backbone.parameters():
+  param.requires_grad = True
+weights_Dir = Path('/content/drive/MyDrive/Colab_zip/GroundingDINO/weights')
 filePaths = [file for file in weights_Dir.iterdir() if file.name.startswith('model_weights')]
 latest_weigths = str(filePaths[-1])
 model.load_state_dict(torch.load(latest_weigths,map_location= device))
@@ -96,7 +100,7 @@ def read_dataset(ann_file):
     return ann_Dict
 
 
-def train(model, ann_file, epochs=1,times = times,device= device, save_path='weights/model_weights',save_epoch=10):
+def train(model, ann_file, epochs=1,times = times,device= device, save_path= str(weights_Dir/'model_weights'),save_epoch=10):
     # Read Dataset
     ann_Dict = read_dataset(ann_file)
     #model = model.to(device)
@@ -143,4 +147,4 @@ def train(model, ann_file, epochs=1,times = times,device= device, save_path='wei
 
 
 if __name__=="__main__":
-    train(model=model, ann_file=ann_file, epochs=50,device= device, save_path='weights/model_weights')
+    train(model=model, ann_file=ann_file, epochs=50,device= device, save_path=str(weights_Dir/'model_weights'))
