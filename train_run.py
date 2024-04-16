@@ -16,6 +16,8 @@ for param in model.parameters():
   param.requires_grad = False
 for param in model.backbone.parameters():
   param.requires_grad = True
+for param in model.bbox_embed.parameters():
+  param.requires_grad = True
 weights_Dir = Path('/content/drive/MyDrive/Colab_zip/GroundingDINO/weights')
 filePaths = [file for file in weights_Dir.iterdir() if file.name.startswith('model_weights')]
 try:
