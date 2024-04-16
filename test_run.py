@@ -7,10 +7,16 @@ from pathlib import Path
 device  = 'cuda' if torch.cuda.is_available() else 'cpu'
 torch.set_default_device(device)
 
-weights_Dir = Path('weights/')
+weights_Dir = Path('/content/drive/MyDrive/Colab_zip/GroundingDINO/weights')
 filePaths = [file for file in weights_Dir.iterdir() if file.name.startswith('model_weights')]
-model_weights= str(filePaths[-1])
+try:
+  model_weights= str(filePaths[-1])
+
+except:
+  model_weights=None
+
 print("choosen weights: ",model_weights)
+
 def apply_nms_per_phrase(image_source, boxes, logits, phrases, threshold=0.3):
     h, w, _ = image_source.shape
     scaled_boxes = boxes * torch.Tensor([w, h, w, h])
@@ -44,8 +50,9 @@ def process_image(
 ):
     model_weight = 'weights/groundingdino_swint_ogc.pth'
     model = load_model(model_config, model_weight)
-    state_dict = torch.load(model_weights,map_location= device)
-    model.load_state_dict(state_dict)
+    if model_weights:
+      state_dict = torch.load(model_weights,map_location= device)
+      model.load_state_dict(state_dict)
     #model.load_state_dict(torch.load(state_dict_path))
     image_source, image = load_image(image_path)
 
