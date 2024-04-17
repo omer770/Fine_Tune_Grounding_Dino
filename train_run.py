@@ -19,6 +19,7 @@ for param in model.backbone.parameters():
 for param in model.bbox_embed.parameters():
   param.requires_grad = True
 weights_Dir = Path('/content/drive/MyDrive/Colab_zip/GroundingDINO/weights')
+weights_Dir.mkdir(parents=True, exist_ok=True)
 filePaths = [file for file in weights_Dir.iterdir() if file.name.startswith('model_weights')]
 try:
   latest_weigths = str(filePaths[-1])
