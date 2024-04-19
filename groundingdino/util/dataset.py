@@ -25,6 +25,7 @@ def cat_replace(id):
 def annotation_coco_2_pd_converter(
   path_2_ann_json:str,
   path_2_images:str,
+  list_class_not_to_train:list = None,
   size_per_class:int = 50,
   path_2_csv:str = None,
   path_2_sub_csv:str = None
@@ -43,7 +44,7 @@ def annotation_coco_2_pd_converter(
       ann_json_object = json.load(openfile)
 
     for imgs in ann_json_object['images']:
-      img_id_2_name[imgs['id']] = imgs['file_name'].replace('buildings/batch_11/','')
+      img_id_2_name[imgs['id']] = imgs['file_name']
       img_name_2_id[imgs['file_name']]= imgs['id']
       img_id_2_width[imgs['id']] = imgs['width']
       img_id_2_height[imgs['id']] = imgs['height']
@@ -52,7 +53,7 @@ def annotation_coco_2_pd_converter(
       cat_name = cats['name']
       cat_id_2_name[cats['id']] = cat_name.lower()
       cat_name_2_id[cat_name.lower()]= cats['id']
-
+    
     df_ann = pd.DataFrame(ann_json_object['annotations'])
     df_ann2 = df_ann.copy()
     df_ann2['image_name'] = df_ann2['image_id'].map(img_id_2_name)
@@ -66,7 +67,8 @@ def annotation_coco_2_pd_converter(
     df_ann4 = df_ann3.loc[:,['label_name','bbox_x','bbox_y','bbox_width','bbox_height','image_name','image_width','image_height']]
     cats = list(df_ann4.label_name.unique())
     #df_ann4['image_name'] = str(df_ann4['image_name']).replace("buildings/batch_11/","")
-    
+    if list_class_not_to_train:
+      for discard in list_class_not_to_train: cats.remove(discard)
     for cat in cats:
       df_sub_cat = df_ann4[df_ann4['label_name'] == cat]
       try: df_dicts[cat] = df_sub_cat.iloc[random.sample(range(0, len(df_sub_cat)), size_per_class),:]
