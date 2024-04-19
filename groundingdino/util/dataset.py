@@ -71,7 +71,7 @@ def annotation_coco_2_pd_converter(
     if list_class_not_to_train:
       for discard in list_class_not_to_train: cats.remove(discard)
     if list_class_to_train:
-      cat = list_class_to_train
+      cats = list_class_to_train
     for cat in cats:
       df_sub_cat = df_ann4[df_ann4['label_name'] == cat]
       try: df_dicts[cat] = df_sub_cat.iloc[random.sample(range(0, len(df_sub_cat)), size_per_class),:]
