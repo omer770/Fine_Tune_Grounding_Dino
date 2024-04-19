@@ -25,6 +25,7 @@ def cat_replace(id):
 def annotation_coco_2_pd_converter(
   path_2_ann_json:str,
   path_2_images:str,
+  list_class_to_train:list = None,
   list_class_not_to_train:list = None,
   size_per_class:int = 50,
   path_2_csv:str = None,
@@ -69,6 +70,8 @@ def annotation_coco_2_pd_converter(
     #df_ann4['image_name'] = str(df_ann4['image_name']).replace("buildings/batch_11/","")
     if list_class_not_to_train:
       for discard in list_class_not_to_train: cats.remove(discard)
+    if list_class_to_train:
+      cat = list_class_to_train
     for cat in cats:
       df_sub_cat = df_ann4[df_ann4['label_name'] == cat]
       try: df_dicts[cat] = df_sub_cat.iloc[random.sample(range(0, len(df_sub_cat)), size_per_class),:]
