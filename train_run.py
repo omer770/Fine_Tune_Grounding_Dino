@@ -155,4 +155,4 @@ def train(model, ann_file, epochs=1,times = times,device= device, save_path= str
 
 
 if __name__=="__main__":
-    train(model=model, ann_file=ann_file, epochs=50,device= device, save_path=str(weights_Dir/'model_weights'))
+    train(model=model, ann_file=ann_file, epochs=51,device= device, save_path=str(weights_Dir/'model_weights'))
