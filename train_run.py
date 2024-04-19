@@ -142,7 +142,7 @@ def train(model, ann_file, epochs=1,times = times,device= device, save_path= str
             optimizer.step()
             
             total_loss += loss.item()  # Accumulate the loss
-            print(f"Processed image {idx+1}/{len(ann_Dict)}, Loss: {loss.item()}")
+            print(f"Processed image {idx+1}/{len(ann_Dict)} of epoch: {epoch}, Loss: {loss.item()}")
 
         # Print the average loss for the epoch
         print(f"Epoch {epoch+1}/{epochs}, Average Loss: {total_loss / len(ann_Dict)}")
@@ -155,4 +155,4 @@ def train(model, ann_file, epochs=1,times = times,device= device, save_path= str
 
 
 if __name__=="__main__":
-    train(model=model, ann_file=ann_file, epochs=51,device= device, save_path=str(weights_Dir/'model_weights'))
+    train(model=model, ann_file=ann_file, epochs=50,device= device, save_path=str(weights_Dir/'model_weights'))
