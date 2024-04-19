@@ -21,12 +21,13 @@ def apply_nms_per_phrase(image_source, boxes, logits, phrases, threshold=0.3):
     h, w, _ = image_source.shape
     scaled_boxes = boxes * torch.Tensor([w, h, w, h])
     scaled_boxes = box_convert(boxes=scaled_boxes, in_fmt="cxcywh", out_fmt="xyxy")
-    nms_boxes_list, nms_logits_list, nms_phrases_list = [], [], []
-
+    nms_boxes_list, nms_logits_list, nms_phrases_list, objs  = [], [], [], []
+    for phrase in phrases:
+      if phrase != '': objs.append(phrase)
     print(f"The unique detected phrases are {set(phrases)}")
 
-    for unique_phrase in set(phrases):
-        indices = [i for i, phrase in enumerate(phrases) if phrase == unique_phrase]
+    for unique_phrase in set(objs):
+        indices = [i for i, phrase in enumerate(objs) if phrase == unique_phrase]
         phrase_scaled_boxes = scaled_boxes[indices]
         phrase_boxes = boxes[indices]
         phrase_logits = logits[indices]
@@ -75,4 +76,5 @@ def process_image(
 if __name__ == "__main__":
     #model_weights="weights/groundingdino_swint_ogc.pth"
     model_weights = model_weights
-    process_image(model_weights=model_weights)
+    try: process_image(model_weights=model_weights)
+    except:print(f"No Detections found of the Category")
